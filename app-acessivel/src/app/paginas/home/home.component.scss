@@ -11,7 +11,31 @@
   padding: 20px;
   box-sizing: border-box;
 }
+.accessibility-controls {
+  display: flex;
+  justify-content: flex-end; /* Alinha os itens para o lado direito da tela */
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
 
+/* Garante que o botão narrador tenha um espaçamento adequado */
+.accessibility-controls .narrador-btn {
+  margin-left: 15px; /* Adiciona um espaço à esquerda do botão */
+}
+.action-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente o texto e o botão */
+}
+
+/* Texto acima dos botões */
+.action-text {
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    margin-bottom: 10px; /* Espaço entre o texto e o botão */
+}
 h1 {
   font-size: 2rem;
   margin-bottom: 60px;
@@ -50,7 +74,10 @@ h1 {
   color: #FFFFFF;
 }
 .brand-logo {
-  width: 150px;
+  width: 220px;
   height: auto;
   margin-bottom: 20px;
+  background-color: #F9F9F9;
+  border-radius: 8px;
+  padding: 10px;
 }

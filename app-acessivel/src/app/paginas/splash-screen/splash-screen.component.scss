@@ -6,15 +6,27 @@
   height: 100vh;
   background-color: #000000;
 }
-
-.logo-title {
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  background-color:  #222222;
   color: #FFFFFF;
-  font-size: 4rem;
-  font-weight: bold;
-  // A animação 'pulse' faz o efeito de loading
-  animation: pulse 2s infinite ease-in-out;
+  padding: 20px;
+  box-sizing: border-box;
 }
-
+.brand-logo {
+  width: 220px;
+  height: auto;
+  margin-bottom: 20px;
+  background-color: #F9F9F9;
+  border-radius: 8px;
+  padding: 10px;
+}
 @keyframes pulse {
   0% {
     opacity: 0.6;

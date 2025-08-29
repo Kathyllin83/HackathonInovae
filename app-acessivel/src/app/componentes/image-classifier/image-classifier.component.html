@@ -1,34 +1,30 @@
-
 <div class="camera-container">
 
-  <!-- Loading -->
-  <div *ngIf="isScanning" class="scanning-overlay">
-    <div class="loader"></div>
-    <p>Escaneando ambiente...</p>
-    <button class="exit-button" routerLink="/home">SAIR</button>
-  </div>
+    <div #blurredBg class="blurred-background"></div>
 
-  <!-- Câmera -->
-  <div *ngIf="!isScanning" class="camera-wrapper">
+    <div *ngIf="isScanning" class="scanning-overlay">
+    <div class="loader"></div>
+    <p>Escaneando ambiente...</p>
+    <button class="exit-button" routerLink="/home">SAIR</button>
+  </div>
 
-    <!-- Botão Narrador agora acima -->
- <button (click)="toggleNarradorManual()" 
-        class="control-icon narrador-btn" 
-        [ngClass]="{'active': isAudiodescricaoAtiva}"
-        aria-label="Ativar ou desativar narrador">
-  <img *ngIf="isAudiodescricaoAtiva" src="assets/icon/alertyellow.svg" alt="Narrador Ativo">
-  <img *ngIf="!isAudiodescricaoAtiva" src="assets/icon/speaker-filled-audio-tool.svg" alt="Narrador Inativo">
-</button>
+    <div *ngIf="!isScanning" class="camera-wrapper">
+        <div class="camera-view-wrapper" #webcamContainer></div>
+  </div>
 
-    <!-- Câmera -->
-    <div class="camera-view-wrapper" #webcamContainer></div>
-  </div>
-
-  <!-- Descrição centralizada -->
-  <div *ngIf="currentDescription" class="description-box">
-    <p [innerHTML]="currentDescription"></p>
+   <div class="fixed-top-left">
+  <div class="sound-control-wrapper">
+    <button (click)="toggleNarradorManual()" 
+            class="control-icon narrador-btn" 
+            [ngClass]="{'active': isAudiodescricaoAtiva}"
+            aria-label="Ativar ou desativar narrador">
+      <img *ngIf="isAudiodescricaoAtiva" src="icon/somon.svg" alt="Narrador Ativo">
+      <img *ngIf="!isAudiodescricaoAtiva" src="icon/sound-off.svg" alt="Narrador Inativo">
+    </button>
+    <span class="leitor-tela-text">Desativar leitor de tela</span>
   </div>
 </div>
-
-
-
+    <div *ngIf="currentDescription" class="description-box">
+    <p [innerHTML]="currentDescription"></p>
+  </div>
+</div>

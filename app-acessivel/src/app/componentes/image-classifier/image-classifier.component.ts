@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -11,16 +12,17 @@ declare var webkitSpeechRecognition: any;
   selector: 'app-image-classifier',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterLink,
-    AccessibilityToolbarComponent 
+    AccessibilityToolbarComponent
   ],
   templateUrl: './image-classifier.component.html',
   styleUrls: ['./image-classifier.component.scss']
 })
 export class ImageClassifierComponent implements OnDestroy, OnInit {
-  // Conecta com o <div #webcamContainer> no HTML
+  // Conecta com o <div #webcamContainer> e o <div #blurredBg> no HTML
   @ViewChild('webcamContainer') webcamContainer!: ElementRef;
+  @ViewChild('blurredBg') blurredBackground!: ElementRef;
   
   // --- Propriedades de Configuração e Modelo ---
   readonly URL = "https://teachablemachine.withgoogle.com/models/y8BGHDjhX/"; // Substitua pelo seu modelo
@@ -32,34 +34,36 @@ export class ImageClassifierComponent implements OnDestroy, OnInit {
   public cameraIniciada = false;
   public currentDescription: string = '';
   public isAudiodescricaoAtiva = true; // O "Narrador" começa ligado
-public isDescriptionActive = true;
-public isDyslexiaModeActive = false;
+  public isDescriptionActive = true;
+  public isDyslexiaModeActive = false;
+
   // --- Propriedades de Controle Interno ---
   private animationFrameId: number | null = null;
   private recognition: any;
   private obraDetectadaAtualmente: string | null = null;
 
- private readonly artDescriptions: { [key: string]: string } = {
-  'obra': `
-    O Painel "Frei Caneca", de Cícero Dias, é uma obra que se destaca pelo seu estilo modernista, lúdico e onírico. 
-    Em suas doze telas, o artista emprega uma paleta de cores vivas e puras, como azuis, vermelhos, verdes e amarelos, 
-    para dar vida a figuras e cenários.
+  // Dados das descrições das obras
+  private readonly artDescriptions: { [key: string]: string } = {
+    'obra': `
+      O Painel "Frei Caneca", de Cícero Dias, é uma obra que se destaca pelo seu estilo modernista, lúdico e onírico.
+      Em suas doze telas, o artista emprega uma paleta de cores vivas e puras, como azuis, vermelhos, verdes e amarelos,
+      para dar vida a figuras e cenários.
 
-    As personagens, incluindo Frei Caneca, muitas vezes aparecem flutuando ou em escalas diferentes da paisagem, 
-    criando um efeito de sonho. Os traços não são realistas, mas sim poéticos e expressivos, misturando elementos 
-    do cotidiano rural e urbano de Pernambuco com a iconografia do herói. A obra se divide para retratar a Revolução 
-    de 1817 e a Confederação do Equador de 1824.
+      As personagens, incluindo Frei Caneca, muitas vezes aparecem flutuando ou em escalas diferentes da paisagem,
+      criando um efeito de sonho. Os traços não são realistas, mas sim poéticos e expressivos, misturando elementos
+      do cotidiano rural e urbano de Pernambuco com a iconografia do herói. A obra se divide para retratar a Revolução
+      de 1817 e a Confederação do Equador de 1824.
 
-    A intenção é mais do que contar a história: é convidar o espectador a entrar na memória e na fantasia do artista 
-    sobre o martírio de Frei Caneca, fazendo da pintura uma celebração vibrante da história e cultura pernambucana.
-  `,
-  'cenário': `
-    Cenário detectado, pessoas e objetos não identificados.
-  `,
-  'fundo': `
-    Fundo detectado. Sem descrição.
-  `
-};
+      A intenção é mais do que contar a história: é convidar o espectador a entrar na memória e na fantasia do artista
+      sobre o martírio de Frei Caneca, fazendo da pintura uma celebração vibrante da história e cultura pernambucana.
+    `,
+    'cenário': `
+      Cenário detectado, pessoas e objetos não identificados.
+    `,
+    'fundo': `
+      Fundo detectado. Sem descrição.
+    `
+  };
   
   constructor() {
     this.setupVoiceRecognition();
@@ -101,18 +105,18 @@ public isDyslexiaModeActive = false;
     this.setNarradorState(!this.isAudiodescricaoAtiva);
   }
 
- private setNarradorState(ativo: boolean): void {
-  this.isAudiodescricaoAtiva = ativo;
+  private setNarradorState(ativo: boolean): void {
+    this.isAudiodescricaoAtiva = ativo;
 
-  // Apenas cancela a voz, não remove o texto
-  if (!this.isAudiodescricaoAtiva) {
-    window.speechSynthesis.cancel();
-  } else if (this.obraDetectadaAtualmente) {
-    // Se religar, fala a descrição novamente
-    const textoParaFalar = new DOMParser().parseFromString(this.currentDescription, "text/html").documentElement.textContent || "";
-    this.falarTexto(textoParaFalar);
+    // Apenas cancela a voz, não remove o texto
+    if (!this.isAudiodescricaoAtiva) {
+      window.speechSynthesis.cancel();
+    } else if (this.obraDetectadaAtualmente) {
+      // Se religar, fala a descrição novamente
+      const textoParaFalar = new DOMParser().parseFromString(this.currentDescription, "text/html").documentElement.textContent || "";
+      this.falarTexto(textoParaFalar);
+    }
   }
-}
 
   private falarTexto(texto: string): void {
     window.speechSynthesis.cancel();
@@ -155,13 +159,24 @@ public isDyslexiaModeActive = false;
 
   private async loop(): Promise<void> {
     if (!this.webcam) return;
-    this.webcam.update(); 
+    this.webcam.update();
     await this.predict();
+    this.updateBlurredBackground(); // Adicionada a nova função aqui
     this.animationFrameId = window.requestAnimationFrame(() => this.loop());
   }
 
+  private updateBlurredBackground(): void {
+    if (this.webcam && this.blurredBackground) {
+      const canvas = this.webcam.canvas;
+      if (canvas) {
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.5); // 0.5 para otimizar
+        this.blurredBackground.nativeElement.style.backgroundImage = `url(${dataUrl})`;
+      }
+    }
+  }
+  
   private async predict(): Promise<void> {
-    if (!this.isAudiodescricaoAtiva || !this.model) return;
+    if (!this.model) return;
 
     const prediction = await this.model.predict(this.webcam.canvas);
     const topPrediction = prediction.reduce((prev: any, current: any) => (prev.probability > current.probability) ? prev : current);
@@ -201,23 +216,24 @@ public isDyslexiaModeActive = false;
     }
     window.speechSynthesis.cancel();
   }
+  
   onToggleDescription(): void {
-  this.isDescriptionActive = !this.isDescriptionActive;
-}
+    this.isDescriptionActive = !this.isDescriptionActive;
+  }
 
-toggleDyslexiaMode(): void {
-  this.isDyslexiaModeActive = !this.isDyslexiaModeActive;
-}
-toggleContrast(): void {
-  console.log('Contraste alternado');
-}
+  toggleDyslexiaMode(): void {
+    this.isDyslexiaModeActive = !this.isDyslexiaModeActive;
+  }
+  
+  toggleContrast(): void {
+    console.log('Contraste alternado');
+  }
 
-increaseFontSize(): void {
-  console.log('Fonte aumentada');
-}
+  increaseFontSize(): void {
+    console.log('Fonte aumentada');
+  }
 
-decreaseFontSize(): void {
-  console.log('Fonte diminuída');
-}
-
+  decreaseFontSize(): void {
+    console.log('Fonte diminuída');
+  }
 }
