@@ -1,11 +1,9 @@
-/* Estilos iniciais */
 body {
   font-family: sans-serif;
   font-size: 1rem;
   line-height: 1.5;
 }
 
-/* Estilos da barra de acessibilidade */
 .accessibility-toolbar {
   display: flex;
   justify-content: center;
@@ -15,7 +13,6 @@ body {
   border-radius: 8px;
 }
 
-/* Estilos do botão de acessibilidade */
 .button-acessibilidade {
   background-color: #000;
   color: #fff;
@@ -38,7 +35,6 @@ body {
   border-color: #ddd;
 }
 
-/* Estilos para o Alto Contraste */
 body.high-contrast {
   color: #000;
   background-color: #fff;
@@ -57,17 +53,15 @@ body.high-contrast .button-acessibilidade:hover {
 body.high-contrast .button-acessibilidade[aria-pressed="true"] {
   background-color: #ccc;
 }
-/* Container para a barra de acessibilidade e o botão de som */
 .accessibility-controls-wrapper {
   display: flex;
-  justify-content: flex-end; /* Alinha os itens à direita */
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   padding: 10px 20px;
   box-sizing: border-box;
 }
 
-/* Estilo do botão de narrador (som) */
 .narrador-btn {
   background: none;
   border: 2px solid #666;
@@ -95,7 +89,6 @@ body.high-contrast .button-acessibilidade[aria-pressed="true"] {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Regra para o ícone de som */
 .button-acessibilidade img {
-  filter: invert(100%); /* Torna o ícone branco */
+  filter: invert(100%); 
 }

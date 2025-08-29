@@ -1,11 +1,9 @@
-
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AccessibilityToolbarComponent } from '../accessibility-toolbar/accessibility-toolbar.component';
 import * as tmImage from '@teachablemachine/image';
 
-// Declara a API de Reconhecimento de Voz para o TypeScript
 declare var webkitSpeechRecognition: any;
 
 @Component({

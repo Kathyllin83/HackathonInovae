@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Import necessário se você estiver usando ngIf ou outros
-import { RouterLink } from '@angular/router'; // Import necessário se estiver em um componente com roteamento
+import { CommonModule } from '@angular/common'; 
+import { RouterLink } from '@angular/router'; 
 
 @Component({
   selector: 'app-accessibility-toolbar',
-  standalone: true, // Adicionei standalone para que possa ser usado sozinho se necessário
+  standalone: true, 
   imports: [CommonModule, RouterLink],
   templateUrl: './accessibility-toolbar.component.html',
   styleUrls: ['./accessibility-toolbar.component.scss']
@@ -16,8 +16,7 @@ export class AccessibilityToolbarComponent {
   public isAudiodescricaoAtiva = false;
   @Output() descriptionToggled = new EventEmitter<void>();
 ngOnInit(): void {
-    // Exemplo: se o usuário já tiver o leitor de tela ativado,
-    // o botão já começa ligado
+
     this.isAudiodescricaoAtiva = true;
   }
   toggleContrast(): void {
@@ -54,18 +53,14 @@ ngOnInit(): void {
   toggleNarradorManual(): void {
     this.isAudiodescricaoAtiva = !this.isAudiodescricaoAtiva;
     
-    // Se o leitor de tela for ativado, ele lê um texto de exemplo
     if (this.isAudiodescricaoAtiva) {
       this.falarTexto("Leitor de tela ativado. Bem-vindo à página.");
     } else {
-      // Se for desativado, a leitura é interrompida
       window.speechSynthesis.cancel();
     }
   }
 
-  // Método para converter texto em voz
   private falarTexto(texto: string): void {
-    // Cancela qualquer leitura anterior
     window.speechSynthesis.cancel();
     
     const utterance = new SpeechSynthesisUtterance(texto);
