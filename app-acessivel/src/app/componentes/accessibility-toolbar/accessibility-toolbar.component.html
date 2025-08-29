@@ -1,0 +1,38 @@
+<div class="accessibility-toolbar" role="toolbar" aria-label="Ferramentas de Acessibilidade">
+
+  <!-- Alto contraste -->
+  <button (click)="toggleContrast()" aria-pressed="false" class="button-acessibilidade" aria-label="Ativar/Desativar alto contraste" title="Alto Contraste">
+    <span class="material-icons">contrast</span>
+  </button>
+
+  <!-- Aumentar fonte -->
+  <button (click)="increaseFontSize()" aria-label="Aumentar tamanho da fonte" class="button-acessibilidade" title="Aumentar Fonte">
+    <span class="material-icons">text_increase</span>
+  </button>
+
+  <!-- Diminuir fonte -->
+  <button (click)="decreaseFontSize()" aria-label="Diminuir tamanho da fonte" class="button-acessibilidade" title="Diminuir Fonte">
+    <span class="material-icons">text_decrease</span>
+  </button>
+
+  <!-- Descrição de Imagem -->
+  <button 
+    (click)="onToggleDescription()" 
+    [attr.aria-pressed]="isDescriptionActive"
+    class="button-acessibilidade"
+    aria-label="Ativar/Desativar descrição de imagem"
+    title="Descrição de Imagem">
+    <span class="material-icons">image_search</span>
+  </button>
+
+  <!-- Modo Dislexia -->
+  <button
+    (click)="toggleDyslexiaMode()"
+    [attr.aria-pressed]="isDyslexiaModeActive"
+    class="button-acessibilidade"
+    aria-label="Ativar/Desativar modo dislexia"
+    title="Modo Dislexia">
+    <span class="material-icons">menu_book</span>
+  </button>
+
+</div>

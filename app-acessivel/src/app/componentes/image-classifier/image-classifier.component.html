@@ -1,0 +1,34 @@
+
+<div class="camera-container">
+
+  <!-- Loading -->
+  <div *ngIf="isScanning" class="scanning-overlay">
+    <div class="loader"></div>
+    <p>Escaneando ambiente...</p>
+    <button class="exit-button" routerLink="/home">SAIR</button>
+  </div>
+
+  <!-- Câmera -->
+  <div *ngIf="!isScanning" class="camera-wrapper">
+
+    <!-- Botão Narrador agora acima -->
+ <button (click)="toggleNarradorManual()" 
+        class="control-icon narrador-btn" 
+        [ngClass]="{'active': isAudiodescricaoAtiva}"
+        aria-label="Ativar ou desativar narrador">
+  <img *ngIf="isAudiodescricaoAtiva" src="assets/icon/alertyellow.svg" alt="Narrador Ativo">
+  <img *ngIf="!isAudiodescricaoAtiva" src="assets/icon/speaker-filled-audio-tool.svg" alt="Narrador Inativo">
+</button>
+
+    <!-- Câmera -->
+    <div class="camera-view-wrapper" #webcamContainer></div>
+  </div>
+
+  <!-- Descrição centralizada -->
+  <div *ngIf="currentDescription" class="description-box">
+    <p [innerHTML]="currentDescription"></p>
+  </div>
+</div>
+
+
+
